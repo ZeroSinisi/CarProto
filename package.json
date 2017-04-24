@@ -1,0 +1,22 @@
+{
+  "name": "carproto",
+  "version": "1.0.0",
+  "description": "Prototype Car Game",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ZeroSinisi/CarProto.git"
+  },
+  "author": "Rick and Tony",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ZeroSinisi/CarProto/issues"
+  },
+  "homepage": "https://github.com/ZeroSinisi/CarProto#readme",
+  "dependencies": {
+    "pixi.js": "^4.5.1"
+  }
+}

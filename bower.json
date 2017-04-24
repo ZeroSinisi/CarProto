@@ -1,0 +1,21 @@
+{
+  "name": "CarProto",
+  "homepage": "https://github.com/ZeroSinisi/CarProto",
+  "authors": [
+    "ZeroSinisi <zero.sinisi@gmail.com>"
+  ],
+  "description": "Car Game Prototype",
+  "main": "index.html",
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "pixi.js": "^4.5.1"
+  }
+}

@@ -1,4 +1,19 @@
+<script src="node_modules\pixi.js\dist\pixi.js"></script>
 <body>
   <div>This is the car game prototype</div>
+  <script>
+    var renderer = new PIXI.autoDetectRenderer(256,256);
+    document.body.appendChild(renderer.view);
+    var stage = new PIXI.Container();
+    renderer.render(stage);
+
+    var car;
+
+    PIXI.loader.add("assests/car.png").load(function() {
+      car = new PIXI.Sprite(PIXI.loader.resources["assests/car.png"].texture);
+      stage.addChild(car);
+      renderer.render(stage);
+    });
+
+  </script>
 </body>
-<script src="node_modules\pixi.js\dist\pixi.js"></script>

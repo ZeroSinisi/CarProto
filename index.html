@@ -30,7 +30,7 @@
         r.x = x;
         x = x + 64;
         r.y = 128;
-        r.vx = -2;
+        r.vx = difficulty;
       });
       road_middle.forEach(r => {stage.addChild(r)});
       game_over = new PIXI.Sprite(PIXI.loader.resources["assests/game_over.png"].texture);
@@ -101,8 +101,8 @@
       requestAnimationFrame(gameLoop);
       car.y += car.yv;
       road_middle.forEach(r => {
-        r.x += r.vx;
-        if(r.x === -64){
+        r.x -= r.vx;
+        if(r.x <= -64){
           r.x = 256;
         }
       });

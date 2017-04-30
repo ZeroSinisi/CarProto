@@ -3,18 +3,25 @@
   <div>This is the car game prototype</div>
   <script>
     var renderer = new PIXI.autoDetectRenderer(256,256);
+    renderer.backgroundColor = 0x52525A;
     document.body.appendChild(renderer.view);
     var stage = new PIXI.Container();
     renderer.render(stage);
 
     var car;
-    var yellow1;
+    var trash;
     var road_middle = [];
+    var game_over;
 
-    PIXI.loader.add(["assests/car.png","assests/road_middle.png"]).load(function() {
+    var difficulty = 2;
+
+    PIXI.loader.add(["assests/car.png","assests/road_middle.png","assests/trash_can.png","assests/game_over.png"]).load(function() {
       car = new PIXI.Sprite(PIXI.loader.resources["assests/car.png"].texture);
       car.y = 64;
       car.yv = 0;
+      trash = new PIXI.Sprite(PIXI.loader.resources["assests/trash_can.png"].texture);
+      trash.x = 256;
+      trash.xv = difficulty;
       for(var i = 0; i < 5; i++) {
         road_middle.push(new PIXI.Sprite(PIXI.loader.resources["assests/road_middle.png"].texture));
       }
@@ -25,10 +32,21 @@
         r.y = 128;
         r.vx = -2;
       });
-      stage.addChild(car);
       road_middle.forEach(r => {stage.addChild(r)});
+      game_over = new PIXI.Sprite(PIXI.loader.resources["assests/game_over.png"].texture);
+      stage.addChild(car);
+      stage.addChild(trash);
+      stage.addChild(game_over);
+      game_over.visible = false;
       renderer.render(stage);
     });
+
+    function trashCollision(){
+      if(trash.x < (car.x + car.width) && (trash.x + trash.width) > car.x && (trash.y + trash.height) > car.y && trash.y < (car.y + car.height)) {
+          return true;
+      }
+      return false;
+    }
 
     function keyboard(keyCode) {
       var key = {};
@@ -88,6 +106,14 @@
           r.x = 256;
         }
       });
+      trash.x -= trash.xv;
+      if((trash.x + trash.width) < 0) {
+        trash.x = 256;
+        trash.y = Math.floor(Math.random() * 224);
+      }
+      if(trashCollision() === true){
+        game_over.visible = true;
+      }
       renderer.render(stage);
     };
 

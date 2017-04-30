@@ -8,12 +8,90 @@
     renderer.render(stage);
 
     var car;
+    var yellow1;
+    var road_middle = [];
 
-    PIXI.loader.add("assests/car.png").load(function() {
+    PIXI.loader.add(["assests/car.png","assests/road_middle.png"]).load(function() {
       car = new PIXI.Sprite(PIXI.loader.resources["assests/car.png"].texture);
+      car.y = 64;
+      car.yv = 0;
+      for(var i = 0; i < 5; i++) {
+        road_middle.push(new PIXI.Sprite(PIXI.loader.resources["assests/road_middle.png"].texture));
+      }
+      let x = 0;
+      road_middle.forEach(r => {
+        r.x = x;
+        x = x + 64;
+        r.y = 128;
+        r.vx = -2;
+      });
       stage.addChild(car);
+      road_middle.forEach(r => {stage.addChild(r)});
       renderer.render(stage);
     });
+
+    function keyboard(keyCode) {
+      var key = {};
+      key.code = keyCode;
+      key.isDown = false;
+      key.isUp = true;
+      key.press = undefined;
+      key.release = undefined;
+      //The `downHandler`
+      key.downHandler = function(event) {
+        if (event.keyCode === key.code) {
+          if (key.isUp && key.press) key.press();
+          key.isDown = true;
+          key.isUp = false;
+        }
+        event.preventDefault();
+      };
+
+      //The `upHandler`
+      key.upHandler = function(event) {
+        if (event.keyCode === key.code) {
+          if (key.isDown && key.release) key.release();
+          key.isDown = false;
+          key.isUp = true;
+        }
+        event.preventDefault();
+      };
+
+      //Attach event listeners
+      window.addEventListener("keydown", key.downHandler.bind(key), false);
+      window.addEventListener("keyup", key.upHandler.bind(key), false);
+      return key;
+    };
+
+    var downKey = keyboard(40);
+    downKey.press = function(){
+      car.yv = 2;
+    };
+    downKey.release = function() {
+      car.yv = 0;
+    };
+
+    var upKey = keyboard(38);
+    upKey.press = function() {
+      car.yv = -2;
+    }
+    upKey.release = function() {
+      car.yv = 0;
+    }
+
+    function gameLoop() {
+      requestAnimationFrame(gameLoop);
+      car.y += car.yv;
+      road_middle.forEach(r => {
+        r.x += r.vx;
+        if(r.x === -64){
+          r.x = 256;
+        }
+      });
+      renderer.render(stage);
+    };
+
+    gameLoop();
 
   </script>
 </body>
